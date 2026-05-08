@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TETO — Explorador do Manual de Marca</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cyan: #0092DD;
+      --cyan-dark: #005ca9;
+      --pink: #f088b6;
+      --pink-bright: #e94362;
+      --yellow: #fdc533;
+      --white: #ffffff;
+      --black: #1d1d1b;
+      --gray: #C6C6C6;
+      --green: #2fac66;
+      --purple: #954B97;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--gray); border-radius: 4px; }
+
+    /* ─── HEADER ─── */
+    header {
+      background: var(--cyan);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0,146,221,0.35);
+      height: 64px;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-mark svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .logo-text {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--white);
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+
+    .logo-sub {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 400;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 1px;
+    }
+
+    .header-pill {
+      background: rgba(255,255,255,0.2);
+      border: 1.5px solid rgba(255,255,255,0.5);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.8rem;
+      color: var(--white);
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan-dark) 100%);
+      padding: 3.5rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 280px; height: 280px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 220px; height: 220px;
+      background: rgba(240,136,182,0.18);
+      border-radius: 50%;
+    }
+
+    .blob {
+      position: absolute;
+      top: 20px; left: 20px;
+      width: 120px; height: 120px;
+      background: rgba(253,197,51,0.15);
+      border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+      animation: blobFloat 7s ease-in-out infinite;
+    }
+
+    @keyframes blobFloat {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(12px,10px) scale(1.05); }
+    }
+
+    .hero-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title span {
+      color: var(--yellow);
+    }
+
+    .hero-desc {
+      color: rgba(255,255,255,0.88);
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .chip {
+      background: rgba(255,255,255,0.15);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      color: var(--white);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 500;
+    }
+
+    .chip:hover {
+      background: var(--white);
+      color: var(--cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* ─── MAIN LAYOUT ─── */
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: calc(100vh - 64px - 260px);
+    }
+
+    /* ─── CONTENT PANEL (left) ─── */
+    .content-panel {
+      padding: 2rem;
+      overflow-y: auto;
+      max-height: calc(100vh - 64px);
+    }
+
+    .section-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--black);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+      border-radius: 2px;
+    }
+
+    /* ─── CARDS GRID ─── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .card {
+      border-radius: 16px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid transparent;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      opacity: 0.15;
+      background: var(--white);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      border-color: rgba(0,146,221,0.2);
+    }
+
+    .card:active { transform: translateY(-2px) scale(0.98); }
+
+    .card.blue { background: var(--cyan); color: white; }
+    .card.pink { background: var(--pink-bright); color: white; }
+    .card.yellow { background: var(--yellow); color: var(--black); }
+    .card.green { background: var(--green); color: white; }
+    .card.purple { background: var(--purple); color: white; }
+    .card.dark { background: var(--black); color: white; }
+
+    .card-page {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      opacity: 0.3;
+      position: absolute;
+      top: 10px; right: 14px;
+    }
+
+    .card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .card-title {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      line-height: 1.2;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-desc {
+      font-size: 0.72rem;
+      opacity: 0.85;
+      line-height: 1.4;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── COLOR PALETTE ─── */
+    .palette-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .swatch {
+      flex: 1;
+      min-width: 80px;
+      height: 72px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8px;
+      position: relative;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+
+    .swatch:hover { transform: scale(1.05); }
+    .swatch:active { transform: scale(0.98); }
+
+    .swatch-hex {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .swatch-name {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.6rem;
+      opacity: 0.8;
+      margin-top: 1px;
+    }
+
+    .copied-toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: var(--black);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.8rem;
+      z-index: 999;
+      transition: transform 0.3s ease;
+      pointer-events: none;
+    }
+
+    .copied-toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── TYPOGRAPHY SHOWCASE ─── */
+    .font-card {
+      background: #f7f7f7;
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      transition: all 0.2s;
+    }
+
+    .font-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .font-name {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .font-sample-fredoka {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .font-sample-montserrat {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: #555;
+      margin-top: 4px;
+    }
+
+    .font-usage {
+      font-size: 0.72rem;
+      color: #888;
+      margin-top: 8px;
+      border-top: 1px solid #e8e8e8;
+      padding-top: 8px;
+    }
+
+    /* ─── CHAT PANEL (right) ─── */
+    .chat-panel {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 64px);
+      position: sticky;
+      top: 64px;
+      border-left: 2px solid #f0f0f0;
+      background: #fafafa;
+    }
+
+    .chat-header {
+      background: var(--white);
+      padding: 1rem 1.25rem;
+      border-bottom: 2px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-dot {
+      width: 10px; height: 10px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(47,172,102,0.2);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 3px rgba(47,172,102,0.2); }
+      50% { box-shadow: 0 0 0 6px rgba(47,172,102,0.1); }
+    }
+
+    .chat-header-text {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--black);
+    }
+
+    .chat-header-sub {
+      font-size: 0.7rem;
+      color: #888;
+      display: block;
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .msg {
+      display: flex;
+      flex-direction: column;
+      max-width: 92%;
+      animation: msgIn 0.35s ease;
+    }
+
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg.user { align-self: flex-end; }
+    .msg.bot { align-self: flex-start; }
+
+    .msg-bubble {
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 0.83rem;
+      line-height: 1.6;
+    }
+
+    .msg.user .msg-bubble {
+      background: var(--cyan);
+      color: var(--white);
+      border-bottom-right-radius: 4px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .msg.bot .msg-bubble {
+      background: var(--white);
+      color: var(--black);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      font-family: 'Montserrat', sans-serif;
+      white-space: pre-wrap;
+    }
+
+    .msg-label {
+      font-size: 0.65rem;
+      color: #aaa;
+      margin-bottom: 3px;
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    .msg.user .msg-label { text-align: right; }
+
+    .page-ref {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--yellow);
+      color: var(--black);
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-top: 6px;
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 10px 14px;
+      background: var(--white);
+      border-radius: 16px;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      width: fit-content;
+    }
+
+    .typing-dot {
+      width: 7px; height: 7px;
+      background: var(--cyan);
+      border-radius: 50%;
+      animation: typingBounce 1.2s infinite;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typingBounce {
+      0%,60%,100% { transform: translateY(0); }
+      30% { transform: translateY(-6px); }
+    }
+
+    .chat-input-area {
+      padding: 12px;
+      border-top: 2px solid #f0f0f0;
+      background: var(--white);
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-input {
+      flex: 1;
+      border: 2px solid #e8e8e8;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.82rem;
+      outline: none;
+      resize: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      max-height: 100px;
+      min-height: 42px;
+      color: var(--black);
+    }
+
+    .chat-input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,146,221,0.1);
+    }
+
+    .send-btn {
+      width: 42px; height: 42px;
+      background: var(--cyan);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .send-btn:hover { background: var(--cyan-dark); transform: scale(1.05); }
+    .send-btn:active { transform: scale(0.95); }
+    .send-btn:disabled { background: var(--gray); cursor: not-allowed; transform: none; }
+
+    .send-btn svg { width: 18px; height: 18px; fill: white; }
+
+    /* ─── SUGGESTION PILLS ─── */
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+      padding: 0 12px;
+    }
+
+    .suggestion-pill {
+      background: #f0f8ff;
+      border: 1.5px solid var(--cyan);
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 0.72rem;
+      color: var(--cyan);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 500;
+    }
+
+    .suggestion-pill:hover {
+      background: var(--cyan);
+      color: white;
+    }
+
+    .suggestion-pill:active { transform: scale(0.95); }
+
+    /* ─── WELCOME MSG ─── */
+    .welcome-bubble {
+      background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+      color: white;
+      border-radius: 16px;
+      border-bottom-left-radius: 4px;
+      padding: 12px 16px;
+      font-size: 0.83rem;
+      line-height: 1.6;
+      box-shadow: 0 4px 16px rgba(0,146,221,0.25);
+    }
+
+    .welcome-bubble strong {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* ─── QUICK REPLY BUTTONS ─── */
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .quick-reply-btn {
+      background: rgba(0,146,221,0.1);
+      border: 1px solid rgba(0,146,221,0.25);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      color: var(--cyan);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 500;
+    }
+
+    .quick-reply-btn:hover {
+      background: var(--cyan);
+      color: white;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.75rem;
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    footer span { color: var(--cyan); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .chat-panel {
+        position: static;
+        height: 70vh;
+        border-left: none;
+        border-top: 2px solid #f0f0f0;
+        order: 2;
+      }
+
+      .content-panel {
+        max-height: none;
+        order: 1;
+      }
+
+      .hero { padding: 2rem 1rem 2.5rem; }
+      .content-panel { padding: 1.5rem 1rem; }
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .error-msg {
+      color: var(--pink-bright);
+      font-size: 0.78rem;
+      padding: 8px 12px;
+      background: #fff0f3;
+      border-radius: 8px;
+      border-left: 3px solid var(--pink-bright);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="15" fill="#0092DD"/>
+        <path d="M16 6L26 17H21V26H11V17H6L16 6Z" fill="white"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-text">TETO</div>
+      <span class="logo-sub">TECHO</span>
+    </div>
+  </div>
+  <div class="header-pill">Manual de Marca 2024</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="blob"></div>
+  <h1 class="hero-title">Explore o <span>Manual de Marca</span><br/>com IA</h1>
+  <p class="hero-desc">Pergunte qualquer coisa sobre cores, tipografia, logotipo, tom de voz e muito mais. O assistente responde com base no Manual de Marca da TETO.</p>
+  <div class="quick-chips">
+    <div class="chip" onclick="askQuestion('Quais são as fontes institucionais da TETO?')">&#128292; Tipografia</div>
+    <div class="chip" onclick="askQuestion('Quais são as cores principais da marca?')">&#127912; Cores</div>
+    <div class="chip" onclick="askQuestion('Como aplicar o logotipo em fundos escuros?')">&#127991;&#65039; Logotipo</div>
+    <div class="chip" onclick="askQuestion('Quais são os valores da TETO?')">&#128161; Valores</div>
+    <div class="chip" onclick="askQuestion('Como deve ser o tom de voz da TETO?')">&#128483;&#65039; Tom de Voz</div>
+    <div class="chip" onclick="askQuestion('O que é o isotipo e como usá-lo?')">&#9195; Isotipo</div>
+  </div>
+</section>
+
+<!-- MAIN LAYOUT -->
+<div class="layout">
+
+  <!-- CONTENT PANEL -->
+  <div class="content-panel">
+
+    <div class="section-title">&#128214; Sumario do Manual</div>
+    <div class="cards-grid">
+      <div class="card blue" onclick="askQuestion('O que e a TETO e qual e sua missao?')">
+        <span class="card-page">6</span>
+        <span class="card-icon">&#127968;</span>
+        <div class="card-title">Sobre a TETO</div>
+        <div class="card-desc">Missao, Visao 2030 e Proposito da organizacao</div>
+      </div>
+      <div class="card pink" onclick="askQuestion('Quais sao os valores da TETO?')">
+        <span class="card-page">7</span>
+        <span class="card-icon">&#128142;</span>
+        <div class="card-title">Nossos Valores</div>
+        <div class="card-desc">Solidariedade, Otimismo, Diversidade...</div>
+      </div>
+      <div class="card yellow" onclick="askQuestion('O que e a matriz de mensagem da TETO?')">
+        <span class="card-page">9</span>
+        <span class="card-icon">&#128172;</span>
+        <div class="card-title">Matriz de Mensagem</div>
+        <div class="card-desc">Urgencia, Acao e Construcao</div>
+      </div>
+      <div class="card green" onclick="askQuestion('Como deve ser o tom de voz da TETO?')">
+        <span class="card-page">10</span>
+        <span class="card-icon">&#127897;&#65039;</span>
+        <div class="card-title">Tom de Voz</div>
+        <div class="card-desc">Persona e pilares verbais da organizacao</div>
+      </div>
+      <div class="card purple" onclick="askQuestion('O que e o manifesto de marca da TETO?')">
+        <span class="card-page">12</span>
+        <span class="card-icon">&#128220;</span>
+        <div class="card-title">Manifesto</div>
+        <div class="card-desc">Expressao de identidade e promessa da marca</div>
+      </div>
+      <div class="card dark" onclick="askQuestion('Como deve ser a comunicacao inclusiva da TETO?')">
+        <span class="card-page">13</span>
+        <span class="card-icon">&#129309;</span>
+        <div class="card-title">Com. Inclusiva</div>
+        <div class="card-desc">Ferramentas para comunicacao diversa</div>
+      </div>
+      <div class="card blue" onclick="askQuestion('Como aplicar o logotipo corretamente?')">
+        <span class="card-page">18</span>
+        <span class="card-icon">&#9999;&#65039;</span>
+        <div class="card-title">Logotipo</div>
+        <div class="card-desc">Regras de uso, area de protecao e restricoes</div>
+      </div>
+      <div class="card pink" onclick="askQuestion('Quais sao as cores institucionais da TETO e seus codigos?')">
+        <span class="card-page">34</span>
+        <span class="card-icon">&#127912;</span>
+        <div class="card-title">Paleta de Cores</div>
+        <div class="card-desc">Cores primarias e secundarias com codigos</div>
+      </div>
+      <div class="card yellow" onclick="askQuestion('Quais sao as tipografias institucionais da TETO?')">
+        <span class="card-page">35</span>
+        <span class="card-icon">&#128292;</span>
+        <div class="card-title">Tipografias</div>
+        <div class="card-desc">Fredoka, Granesta e Montserrat</div>
+      </div>
+      <div class="card green" onclick="askQuestion('Como sao as camisetas oficiais da TETO?')">
+        <span class="card-page">54</span>
+        <span class="card-icon">&#128085;</span>
+        <div class="card-title">Camisetas</div>
+        <div class="card-desc">Aplicacao em uniformes e produtos</div>
+      </div>
+    </div>
+
+    <!-- PALETTE -->
+    <div class="section-title">&#127912; Paleta de Cores</div>
+    <div class="palette-row">
+      <div class="swatch" style="background:#0092DD; color:white;" onclick="copyHex('#0092DD')">
+        <div class="swatch-hex">#0092DD</div>
+        <div class="swatch-name">Azul Ciano</div>
+      </div>
+      <div class="swatch" style="background:#005ca9; color:white;" onclick="copyHex('#005CA9')">
+        <div class="swatch-hex">#005CA9</div>
+        <div class="swatch-name">Azul Escuro</div>
+      </div>
+      <div class="swatch" style="background:#f088b6; color:white;" onclick="copyHex('#F088B6')">
+        <div class="swatch-hex">#F088B6</div>
+        <div class="swatch-name">Rosa</div>
+      </div>
+      <div class="swatch" style="background:#e94362; color:white;" onclick="copyHex('#E94362')">
+        <div class="swatch-hex">#E94362</div>
+        <div class="swatch-name">Rosa Vivo</div>
+      </div>
+      <div class="swatch" style="background:#fdc533; color:#1d1d1b;" onclick="copyHex('#FDC533')">
+        <div class="swatch-hex">#FDC533</div>
+        <div class="swatch-name">Amarelo</div>
+      </div>
+      <div class="swatch" style="background:#2fac66; color:white;" onclick="copyHex('#2FAC66')">
+        <div class="swatch-hex">#2FAC66</div>
+        <div class="swatch-name">Verde</div>
+      </div>
+      <div class="swatch" style="background:#954B97; color:white;" onclick="copyHex('#954B97')">
+        <div class="swatch-hex">#954B97</div>
+        <div class="swatch-name">Roxo</div>
+      </div>
+      <div class="swatch" style="background:#1d1d1b; color:white;" onclick="copyHex('#1D1D1B')">
+        <div class="swatch-hex">#1D1D1B</div>
+        <div class="swatch-name">Preto</div>
+      </div>
+    </div>
+
+    <!-- TYPOGRAPHY -->
+    <div class="section-title">&#128292; Tipografias</div>
+    <div class="font-card">
+      <div class="font-name">Principal - Fredoka</div>
+      <div class="font-sample-fredoka">Construir uma sociedade justa.</div>
+      <div class="font-sample-montserrat" style="font-family:'Fredoka',sans-serif; font-weight:400; font-size:1rem; color:#555;">A bcd efg hij klm nop qrs tuv wxyz</div>
+      <div class="font-usage">&#128221; Usada em titulos, subtitulos e textos curtos. Disponivel no Google Fonts.</div>
+    </div>
+    <div class="font-card">
+      <div class="font-name">Secundaria - Montserrat</div>
+      <div class="font-sample-montserrat" style="font-size:1.3rem; font-weight:700; color: var(--black);">Textos formais e longos.</div>
+      <div class="font-sample-montserrat" style="font-weight:400;">A bcd efg hij klm nop qrs tuv wxyz 0 1 2 3 4 5 6 7 8 9</div>
+      <div class="font-usage">&#128221; Para textos longos, documentos formais e relatorios. Disponivel no Google Fonts.</div>
+    </div>
+    <div class="font-card">
+      <div class="font-name">Destaque - Granesta</div>
+      <div style="font-size: 1.5rem; font-weight:700; color: var(--pink-bright); font-style: italic;">Humanizando o universo grafico.</div>
+      <div class="font-usage">&#128221; Para manchetes e frases de destaque. Substituta nas plataformas Google: Permanent Marker.</div>
+    </div>
+
+  </div>
+
+  <!-- CHAT PANEL -->
+  <div class="chat-panel">
+    <div class="chat-header">
+      <div class="chat-dot"></div>
+      <div>
+        <div class="chat-header-text">Assistente TETO</div>
+        <span class="chat-header-sub">Baseado no Manual de Marca oficial</span>
+      </div>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="msg bot">
+        <div class="msg-label">Assistente TETO</div>
+        <div class="welcome-bubble">
+          <strong>&#128075; Ola! Sou o assistente do Manual de Marca TETO.</strong>
+          Posso responder suas duvidas sobre identidade visual, tipografia, cores, logotipo, tom de voz, aplicacoes da marca e muito mais - sempre indicando a pagina do manual para voce consultar!
+        </div>
+      </div>
+    </div>
+
+    <div class="suggestions" id="suggestions">
+      <div class="suggestion-pill" onclick="askQuestion('Posso usar a fonte Arial nos materiais da TETO?')">Posso usar Arial?</div>
+      <div class="suggestion-pill" onclick="askQuestion('Qual e o codigo hex da cor azul ciano?')">Codigo hex azul?</div>
+      <div class="suggestion-pill" onclick="askQuestion('Quando usar o logotipo branco?')">Logo branco?</div>
+    </div>
+
+    <div class="chat-input-area">
+      <textarea
+        id="chatInput"
+        class="chat-input"
+        placeholder="Ex: Posso usar a fonte Arial nos materiais?"
+        rows="1"
+        onkeydown="handleKey(event)"
+        oninput="autoResize(this)"
+      ></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2024 TETO Brasil - <span>Manual de Marca</span> | Elaboracao: Luana Scalla | Aprovacao: Juan Jose Ayerza</p>
+  <p style="margin-top:4px; opacity:0.5;">Este explorador e uma ferramenta de consulta baseada no Manual de Marca oficial da TETO.</p>
+</footer>
+
+<!-- TOAST -->
+<div class="copied-toast" id="copyToast">Copiado!</div>
+
+<script>
+// ============================================================================
+// BASE DE CONHECIMENTO - Manual de Marca TETO
+// ============================================================================
+
+const KNOWLEDGE_BASE = [
+  {
+    keywords: ['sobre', 'teto', 'missao', 'proposito', 'visao', 'organizacao', 'ong', 'quem e'],
+    page: 6,
+    response: `A TETO (tambem conhecida como TECHO internacionalmente) e uma organizacao que atua em favelas e comunidades precarias na America Latina e Caribe.\n\n&#127968; **Missao**: Mobilizar o voluntariado jovem para trabalhar com senso de urgencia em acao conjunta com os moradores de comunidades precarias, desenvolvendo solucoes de moradia e habitat e fortalecendo as capacidades comunitarias.\n\n&#127752; **Visao 2030**: Transformar a qualidade de vida de 1 milhao de pessoas que deixarao de viver em um chao de terra, atraves da mobilizacao de 2 milhoes de voluntarios.\n\n&#9889; **Proposito**: Construir uma sociedade justa e sem pobreza.`
+  },
+  {
+    keywords: ['valores', 'solidariedade', 'diversidade', 'otimismo', 'excelencia', 'conviccao'],
+    page: 7,
+    response: `Os valores da TETO sao o alicerce de toda a sua atuacao (pág. 7):\n\n&#128170; **Solidariedade**: Atuamos em busca de um bem comum e contra as injusticas e desigualdades.\n\n&#127752; **Diversidade**: Enriquecemos nosso trabalho atraves da colaboracao entre pessoas diferentes.\n\n&#128161; **Conviccao**: Temos a certeza de que, atraves do nosso trabalho, vamos melhorar nossa sociedade.\n\n&#9728;&#65039; **Otimismo**: Somos criativos e proativos no desenvolvimento de solucoes, trabalhando com atitude propositiva.\n\n&#11088; **Excelencia**: Realizamos um trabalho de qualidade, buscando a melhoria continua.`
+  },
+  {
+    keywords: ['matriz', 'mensagem', 'urgencia', 'acao', 'construcao', 'territorios'],
+    page: 9,
+    response: `A Matriz de Mensagem da TETO (pág. 9) e composta por uma mensagem central e tres territorios:\n\n&#128172; **Mensagem central**: "A partir do fazer, geramos encontros improvaveis que transformam realidades para superar a pobreza."\n\nOs tres territorios sao:\n1. &#9888;&#65039; **Urgencia**: A falta de acesso aos direitos basicos e urgencia diaria\n2. &#128170; **Acao**: O poder do fazer coletivo\n3. &#127959;&#65039; **Construcao**: Um futuro onde ninguem viva em um chao de terra`
+  },
+  {
+    keywords: ['tom de voz', 'persona', 'pilares verbais', 'influencer', 'ativista', 'comunicacao'],
+    page: 10,
+    response: `O tom de voz da TETO e definido pela Persona TETO (pág. 10):\n\n&#128100; **Persona**: Influencer comunitario, jovem, ativista, entusiasta e idealista. Trabalhador, energetico, com grande capacidade de lideranca. Nao se interessa por estereotipos, foca nas comunidades.\n\n&#128226; **Pilares verbais**:\n- Convocante\n- Inspiradora\n- Determinada\n- Denunciante\n\n&#127912; **Traços**: Plural, Sensivel e Clara, Entusiasmada e Energetica, Contadora de historias, Formadora de opiniao, Otimista, Desafiante, Inovadora, Assertiva, Defensora de direitos, Especialista e Corajosa.`
+  },
+  {
+    keywords: ['manifesto', 'marca', 'identidade', 'promessa'],
+    page: 12,
+    response: `O Manifesto de Marca da TETO (pág. 12) e a expressao maxima da identidade e promessa da marca:\n\n&#128220; *"Queremos fazer parte de algo maior do que nos mesmos e enfrentar a desigualdade social de frente. Porque estamos convencidos de que nossas cidades podem ser melhores..."*\n\nO manifesto reflete o compromisso da organizacao com a transformacao social e a construcao coletiva de um futuro mais justo.`
+  },
+  {
+    keywords: ['comunicacao inclusiva', 'inclusiva', 'diversidade', 'inclusao'],
+    page: 13,
+    response: `A Comunicacao Inclusiva da TETO (pág. 13) esta alinhada com o valor de Diversidade. A organizacao possui um Manual de Comunicacao Inclusiva que fornece ferramentas praticas e principios eticos para garantir que toda a comunicacao seja respeitosa, acessivel e representativa da diversidade das comunidades atendidas.`
+  },
+  {
+    keywords: ['palavras', 'nome teto', 'maiuscula', 'teto', 'teecho', 'ajudar', 'caridade', 'favela', 'pobreza'],
+    page: 14,
+    response: `O uso correto das palavras e do nome e fundamental (pág. 14):\n\n&#9995; **O nome da organizacao deve SEMPRE ser escrito em letras MAIUSCULAS**: TETO (nao "teto").\n\n&#128172; **Substituicoes obrigatorias**:\n- &#10060; "Condicao de pobreza" &#10145;&#65039; &#9989; "Situacao de pobreza"\n- &#10060; "Ajudar" &#10145;&#65039; &#9989; "Apoiar"\n- &#10060; "Caridade" &#10145;&#65039; &#9989; "Solidariedade"\n- &#10060; "Favela/comunidade informal" &#10145;&#65039; &#9989; "Favela/comunidade precaria"\n\n&#127760; **Marcas**: TETO e a marca no Brasil. TECHO e a marca internacional (exceto Chile que usa "Un Techo Para Chile").`
+  },
+  {
+    keywords: ['logotipo', 'logo', 'aplicar', 'regras', 'identificador', 'isotipo'],
+    page: 18,
+    response: `O Logotipo da TETO (pág. 18) e o identificador visual principal da marca:\n\n&#9999;&#65039; **Caracteristicas**:\n- O identificador e o nome "TETO"\n- O isotipo (casa/seta para cima) fica no centro da letra O\n- Levemente inclinado para cima para enfatizar evolucao e crescimento\n- A sombra do isotipo transmite evolucao, crescimento, avanco e construcao\n\n&#128311; **Versao Brasil**: TETO com TECHO menor abaixo\n&#127758; **Versao Internacional**: TECHO\n&#127464;&#127473; **Versao Chile**: TECHO - UN TECHO PARA CHILE\n\n&#9888;&#65039; Deve aparecer em TODAS as comunicacoes emitidas!`
+  },
+  {
+    keywords: ['area de protecao', 'protecao logo', 'espacamento', 'margem logo'],
+    page: 20,
+    response: `A Area de Protecao do Logotipo (pág. 20) e o espaco minimo obrigatorio ao redor do logotipo:\n\n&#128207; O espaco minimo equivale a medida do proprio isotipo.\n\nIsso evita que elementos estranhos invadam a area do logotipo e garante sua legibilidade e impacto visual.`
+  },
+  {
+    keywords: ['tamanhos minimos', 'tamanho logo', '30px', '1cm'],
+    page: 21,
+    response: `Os Tamanhos Minimos do Logotipo (pág. 21) sao:\n\n&#128187; **Digital**: minimo 30px\n\n&#128240; **Impresso**:\n- Versao menor: minimo 1cm\n- Versao media: minimo 2cm\n- Versao completa: minimo 4cm\n\nRespeitar esses tamanhos e essencial para garantir a legibilidade do logotipo.`
+  },
+  {
+    keywords: ['usos incorretos', 'errado logo', 'nao fazer', 'restricoes logo'],
+    page: 22,
+    response: `Usos INCORRETOS do Logotipo - NUNCA faca isso (pág. 22):\n\n&#10060; A) Nao ampliar o logotipo proporcionalmente errado\n&#10060; B) Nao alterar o tipo de letra\n&#10060; C) Nao alterar a inclinacao do logotipo\n&#10060; D) Nao alterar o tamanho entre logotipo e tipo de letra\n&#10060; E) Nao condensar o logotipo\n&#10060; F) Nao alterar o tamanho do isotipo\n&#10060; G) Nao aplicar o logotipo em contorno\n&#10060; H) Nao alterar a tipografia institucional\n\n&#128161; Sempre use os arquivos originais!`
+  },
+  {
+    keywords: ['fundo escuro', 'fundo branco', 'fundo colorido', 'logo escuro', 'logo branco', 'midia impressa'],
+    page: 23,
+    response: `Aplicacao do Logotipo em diferentes fundos (pág. 23-26):\n\n&#128311;&#10145;&#65039; **Fundo branco/claro**: Use o logotipo na cor **azul ciano**\n&#129371;&#10145;&#65039; **Fundo colorido**: Use o logotipo **totalmente branco**\n\n&#127912; **Cores saturadas** (vermelho, azul escuro, verde): Use a versao **branca** do logotipo\n\n&#128247; **Sobre imagem**: Logo branco com isotipo azul. Em imagens muito claras: logomarca azul ciano com isotipo transparente.\n\n&#9888;&#65039; Nunca use cores secundarias quando aplicado em imagem!`
+  },
+  {
+    keywords: ['isotipo', 'emblema', 'seta', 'casa', 'simbolo'],
+    page: 28,
+    response: `O Isotipo da TETO (pág. 28) e o emblema da marca:\n\n&#11014;&#65039; **O que e**: A combinacao de uma seta/casa dentro de um circulo - simbolizando construcao, evolucao e crescimento.\n\n&#128309; **Versao principal**: Isotipo azul ciano com fundo branco\n&#129371; **Versao alternativa**: Isotipo branco com fundo azul ciano\n\n&#9888;&#65039; **Regra**: O isotipo SEMPRE deve estar dentro do circulo que o contem!`
+  },
+  {
+    keywords: ['cores', 'cor principal', 'cor secundaria', 'paleta', 'hex', 'cmyk', 'rgb', 'pantone', 'azul ciano', 'amarelo', 'verde', 'rosa', 'roxo', 'preto', 'cinza'],
+    page: 34,
+    response: `A Paleta de Cores da TETO (pág. 34) e composta por cores principais e secundarias:\n\n&#11088; **PRINCIPAIS**:\n&#128309; **Azul Ciano** (cor principal): HEX #0092DD | CMYK 100/0/0/0 | RGB 0/146/221 | Pantone P112-8C\n&#129371; **Branco**: HEX #ffffff | RGB 255/255/255\n\n&#127752; **SECUNDARIAS**:\n&#9899; **Preto**: HEX #1d1d1b | Pantone Black U\n&#128996; **Cinza**: HEX #C6C6C6 | Pantone Cool Gray 3U\n&#128993; **Amarelo**: HEX #fdc533 | Pantone 122U\n&#128994; **Verde**: HEX #2fac66 | Pantone 7482U\n&#128309; **Azul Escuro**: HEX #005ca9 | Pantone 2935U\n&#128308; **Rosa Vivo**: HEX #e94362 | Pantone 206U\n&#127800; **Rosa**: HEX #f088b6 | Pantone 218U\n&#128995; **Roxo**: HEX #954B97 | Pantone 254U`
+  },
+  {
+    keywords: ['tipografia', 'fonte', 'fontes', 'fredoka', 'granesta', 'montserrat', 'arial', 'roboto'],
+    page: 35,
+    response: `As Tipografias Institucionais da TETO (pág. 35-37) sao tres:\n\n&#128292; **Fredoka** (principal):\n- Usada em titulos, subtitulos e textos curtos\n- Pesos: Light, Regular, Medium, Semi Bold, Bold\n- Pontas arredondadas, formal e original\n- Disponivel no Google Fonts\n\n&#128221; **Montserrat** (texto corrido):\n- Para textos longos, documentos formais e relatorios\n- Pesos: Light, Regular, Medium, SemiBold, Bold\n- Combina muito bem com a Fredoka\n\n&#127775; **Granesta** (destaque):\n- Para manchetes e frases de destaque\n- Substituta no Google Fonts: Permanent Marker\n\n&#9888;&#65039; **NUNCA use Arial, Roboto, Inter ou outras fontes nao institucionais!**`
+  },
+  {
+    keywords: ['iconografia', 'icones', 'simbolos', 'geometrico'],
+    page: 38,
+    response: `A Iconografia da TETO (pág. 38-39) e um sistema variado de icones extraidos das bases geometricas do isotipo:\n\n&#128311; **Formas base**: Circulo, semicirculo, triangulo e quadrado\n\n&#128247; **Icones disponiveis**: Cidades, Agua, Juventude, Martelo, Lider, Infraestrutura comunitaria, Doacao, Eletricidade, Coleta, Comunidade, Sistemas de agua, Direitos humanos, Infancias, Voluntariado, Mesa de trabalho, Excelencia, Saneamento basico, Banheiros, Sede comunitaria e Moradia de emergencia.`
+  },
+  {
+    keywords: ['texturas', 'filtro', 'miscelaneas', 'tramas', 'layout'],
+    page: 41,
+    response: `O Sistema de Identidade Visual da TETO (pág. 41) e composto por 4 grupos principais alem de imagens e fontes:\n\n&#127912; **Texturas** (pág. 42): Variedade de texturas com tons das cores principais, referindo-se a paredes, papeis e madeiras. Usadas principalmente como fundos.\n\n&#9889; **Miscelaneas** (pág. 43): Sistema que representa movimento criativo e dinamismo do voluntariado.\n\n&#128256; **Tramas** (pág. 44): Tramas com o isotipo TETO que transmitem dinamismo, modernidade, positividade e proximidade.\n\n&#127749; **Filtro** (pág. 45): Imagens recebem um sutil "granulado" para texturiza-las e acentuar o calor.`
+  },
+  {
+    keywords: ['camiseta', 'camisetas', 'uniforme', 'roupa', 'vestuario'],
+    page: 54,
+    response: `As Camisetas Oficiais da TETO (pág. 54-57) seguem regras especificas:\n\n&#128085; **Camiseta oficial**: Base BRANCA com logotipo TETO azul ciano no peito. Na parte superior das costas: "Voluntario" (ou variacao inclusiva como "Voluntarix").\n\n&#128309; **Camiseta secundaria**: Base AZUL CIANO com logo BRANCO (para Coleta e encontros).\n\n&#127881; **Camiseta celebrativa**: Apenas para eventos especiais (aniversario, jantar), quantidade limitada.\n\n&#9888;&#65039; **Roupas coloridas NAO sao autorizadas para atividades no territorio!**\n\n&#128161; **Parcerias**: Logo TETO centralizado no peito e obrigatorio em produtos com parceiros.`
+  },
+  {
+    keywords: ['submarcas', 'submarca', 'criar marca'],
+    page: 53,
+    response: `Sobre Submarcas da TETO (pág. 53):\n\n&#10060; **NAO e permitida** a criacao de submarcas por pais, regiao, escritorio, area ou equipe.\n\n&#9989; Em casos excepcionais (novas linhas de trabalho, programas especificos), requer aprovacao da TECHO International.\n\n&#128161; **Exemplos aprovados**: Amigos da TETO, Fabrica Social da TECHO Argentina.\n\n&#9888;&#65039; Ao criar submarca aprovada, nao emular o logotipo TECHO!`
+  },
+  {
+    keywords: ['autorizacao', 'propriedade intelectual', 'marca registrada', 'licenca'],
+    page: 52,
+    response: `Autorizacao da Marca TETO (pág. 52):\n\n&#169;&#65039; As marcas "TETO" e "Un Teto Para Meu Pais - Brasil" sao propriedade da Fundacao Internacional TECHO.\n\n&#128737;&#65039; **Entidades Associadas NAO podem** registrar marcas locais sem autorizacao do escritorio internacional.\n\n&#129309; **Parcerias com empresas** requerem licenca por prazo determinado.\n\n&#128221; O contrato deve incluir o artigo "Uso de Propriedade Intelectual".`
+  },
+  {
+    keywords: ['redes sociais', 'social media', 'instagram', 'facebook'],
+    page: 60,
+    response: `Redes Sociais da TETO (pág. 60):\n\n&#127760; A TETO tem presenca digital em **18 paises**.\n\n&#128172; Existe um Guia de Redes Sociais que define requisitos minimos para comunicacao consistente.\n\n&#127919; **Objetivo**: Que a TETO seja vista como uma organizacao unica internacionalmente.`
+  },
+  {
+    keywords: ['fotografia', 'video', 'audiovisual', 'imagem'],
+    page: 61,
+    response: `Fotografia e Video da TETO (pág. 61):\n\n&#128247; Fotos e videos transmitem valores e impacto de forma poderosa.\n\n&#127909; Existe um Guia de Conteudo Audiovisual com recomendacoes tecnicas e visuais para garantir que todo material audiovisual esteja alinhado com a identidade da marca.`
+  },
+  {
+    keywords: ['produtos solidarios', 'solidario', 'moletom'],
+    page: 59,
+    response: `Produtos Solidarios da TETO (pág. 59):\n\n&#128085; **Produto TETO Solidario**: Deve seguir cores, tipografia e elementos do manual.\n\n&#9888;&#65039; **Camisetas/moletons solidarios**: NAO centralizar logo no peito (para nao confundir com uniforme oficial).\n\n&#129309; **Produto Solidario de Marcas Parceiras**: E permitido, respeitando a identidade TETO.`
+  },
+  {
+    keywords: ['datas comemorativas', 'aniversario', '8m'],
+    page: 58,
+    response: `Aplicacao em Datas Comemorativas (pág. 58):\n\n&#127881; Datas como aniversarios ou 8M permitem alteracoes temporarias nas cores (maximo 1 mes).\n\n&#9889; Deve-se aplicar o logotipo e isotipo atualizados mesmo nas versoes comemorativas.`
+  },
+  {
+    keywords: ['numeros', 'impacto', 'solucoes', 'mobilizacao'],
+    page: 15,
+    response: `Numeros de Impacto da TETO (pág. 15):\n\n&#127968; **Solucoes unifamiliares**: Calcula-se 4,5 pessoas por solucao (media latino-americana).\n\n&#127757; **Solucoes comunitarias**: Calcula-se 360 pessoas por comunidade.\n\n&#128170; **Mobilizacao voluntaria**: 1 mobilizacao para cada acao/atividade no territorio.`
+  },
+  {
+    keywords: ['evolucao logo', 'historia logo', '1997', '2005', '2012', '2024'],
+    page: 17,
+    response: `A Evolucao do Logotipo da TETO (pág. 17):\n\n&#128197; **1997**: Inicio como "Um Teto para o Chile"\n&#128197; **2005**: Expansao para America Latina como "Um Teto para Meu Pais"\n&#128197; **2012**: Marca unica TECHO/TETO para 19 paises\n&#128197; **2024**: Renovacao da marca para reforcar identidade jovem e de referencia`
+  }
+];
+
+// ============================================================================
+// MOTOR DE BUSCA LOCAL
+// ============================================================================
+
+const STOP_WORDS = new Set(['teto', 'teecho', 'sobre', 'qual', 'quais', 'como', 'deve', 'ser', 'sao', 'que', 'para', 'dos', 'das', 'uma', 'uno', 'nos', 'nas', 'posso', 'pode', 'onde', 'quando', 'usar', 'fazer', 'tem']);
+
+function getWordWeight(word) {
+  return STOP_WORDS.has(word) ? 0.2 : 1.0;
+}
+
+function findBestResponse(query) {
+  // Clean query: lowercase, remove accents, remove punctuation
+  const q = query.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim();
+
+  // Split into words, filter out very short ones
+  let qWords = q.split(/\s+/).filter(w => w.length > 2);
+  // Remove pure stop words entirely (they don't help disambiguate)
+  qWords = qWords.filter(w => !STOP_WORDS.has(w));
+
+  if (qWords.length === 0) {
+    // If only stop words, use them but with very low weight
+    qWords = q.split(/\s+/).filter(w => w.length > 2);
+  }
+
+  let bestMatch = null;
+  let bestScore = 0;
+
+  for (const entry of KNOWLEDGE_BASE) {
+    let score = 0;
+    let matchedKwSet = new Set();
+    const normalizedKws = entry.keywords.map(k => k.normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+
+    for (const word of qWords) {
+      const weight = STOP_WORDS.has(word) ? 0.2 : 1.0;
+      for (let i = 0; i < normalizedKws.length; i++) {
+        const nkw = normalizedKws[i];
+        if (nkw === word) {
+          score += 12 * weight;
+          matchedKwSet.add(i);
+        } else if (word.length >= 4 && nkw.includes(word)) {
+          // Word is contained in keyword (e.g. "tipografia" contains "font")
+          score += 5 * weight;
+          matchedKwSet.add(i);
+        } else if (nkw.length >= 4 && word.includes(nkw)) {
+          // Keyword is contained in word (e.g. "fonte" in "fontes")
+          score += 4 * weight;
+          matchedKwSet.add(i);
+        }
+      }
+    }
+    // Boost entries that match multiple distinct keywords
+    score += matchedKwSet.size * 3;
+
+    // Prefer higher score, or same score with more matched keywords
+    if (score > bestScore || (score === bestScore && matchedKwSet.size > (bestMatch?._matchedKwCount || 0))) {
+      bestScore = score;
+      bestMatch = entry;
+      bestMatch._matchedKwCount = matchedKwSet.size;
+    }
+  }
+
+  if (bestScore >= 5) {
+    return bestMatch.response + `\n\n<span class="page-ref">&#128196; pag. ${bestMatch.page}</span>`;
+  }
+
+  return null;
+}
+
+function generateFallbackResponse(query) {
+  const fallbacks = [
+    `&#128161; Nao encontrei uma resposta especifica sobre isso no Manual de Marca. Recomendo consultar o PDF oficial do manual diretamente para mais detalhes!\n\nEnquanto isso, posso ajudar com temas como cores, tipografia, logotipo, valores, tom de voz e aplicacoes da marca.`,
+    `&#128269; Essa pergunta esta fora do escopo do Manual de Marca que tenho acesso. Sugiro verificar o PDF completo do manual!\n\nMas fico feliz em responder sobre: identidade visual, cores institucionais, tipografia, uso do logotipo, tom de voz e camisetas oficiais.`,
+    `&#129300; Boa pergunta! Infelizmente nao tenho essa informacao no contexto do Manual de Marca disponivel. Para garantir uma resposta precisa, consulte o PDF oficial.\n\nPosso ajudar com outras dúvidas sobre a marca TETO!`
+  ];
+  return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+}
+
+// ============================================================================
+// UI HELPERS
+// ============================================================================
+
+function autoResize(textarea) {
+  textarea.style.height = 'auto';
+  textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function scrollToBottom() {
+  const messages = document.getElementById('messages');
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function addMessage(role, text) {
+  const messages = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+
+  const label = document.createElement('div');
+  label.className = 'msg-label';
+  label.textContent = role === 'user' ? 'Voce' : 'Assistente TETO';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = text;
+
+  div.appendChild(label);
+  div.appendChild(bubble);
+  messages.appendChild(div);
+  scrollToBottom();
+  return div;
+}
+
+function showTyping() {
+  const messages = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg bot';
+  div.id = 'typingIndicator';
+
+  const label = document.createElement('div');
+  label.className = 'msg-label';
+  label.textContent = 'Assistente TETO';
+
+  const indicator = document.createElement('div');
+  indicator.className = 'typing-indicator';
+  indicator.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+
+  div.appendChild(label);
+  div.appendChild(indicator);
+  messages.appendChild(div);
+  scrollToBottom();
+}
+
+function hideTyping() {
+  const indicator = document.getElementById('typingIndicator');
+  if (indicator) indicator.remove();
+}
+
+function hideSuggestions() {
+  document.getElementById('suggestions').style.display = 'none';
+}
+
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).then(() => {
+    const toast = document.getElementById('copyToast');
+    toast.textContent = hex + ' copiado!';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1800);
+  }).catch(() => {
+    const toast = document.getElementById('copyToast');
+    toast.textContent = hex;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1800);
+  });
+}
+
+// ============================================================================
+// MAIN SEND / CHAT ENGINE
+// ============================================================================
+
+function askQuestion(question) {
+  const input = document.getElementById('chatInput');
+  input.value = question;
+  sendMessage();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const userText = input.value.trim();
+
+  if (!userText) return;
+
+  hideSuggestions();
+  addMessage('user', escapeHtml(userText));
+  input.value = '';
+  input.style.height = 'auto';
+  sendBtn.disabled = true;
+  showTyping();
+
+  // Simulate realistic network delay (600-1400ms)
+  const delay = 600 + Math.random() * 800;
+
+  await new Promise(r => setTimeout(r, delay));
+
+  const response = findBestResponse(userText);
+  const finalResponse = response || generateFallbackResponse(userText);
+
+  hideTyping();
+  addMessage('bot', finalResponse);
+
+  sendBtn.disabled = false;
+  input.focus();
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Auto-focus input on load
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('chatInput').focus();
+});
+</script>
+
+</body>
+</html>
